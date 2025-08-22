@@ -84,10 +84,16 @@ export const submitApplication = async (req, res) => {
         <p><b>Address:</b> ${street}, ${apartment}, ${city}, ${state}, ${zip}, ${country}</p>
         <h3>Education:</h3>
         <ul>
-          ${educationArr
-            .map((e) => `<li>${e.degree} - ${e.year}</li>`)
-            .join("")}
-        </ul>
+  ${educationArr
+    .map((e) => {
+      return `<li>
+        ${e.degree || "N/A"} 
+        ${e.year ? " - " + e.year : ""} 
+        ${e.institute ? " - " + e.institute : ""}
+      </li>`;
+    })
+    .join("")}
+</ul>
         <h3>Work Experience:</h3>
         <ul>
         ${workArr
