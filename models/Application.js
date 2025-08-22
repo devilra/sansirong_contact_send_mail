@@ -8,7 +8,8 @@ const educationSchema = new mongoose.Schema({
 
 const workSchema = new mongoose.Schema({
   company: String,
-  year: Date,
+  role: String,
+  experience: String,
   responsibilities: String,
 });
 

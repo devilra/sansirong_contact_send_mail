@@ -40,6 +40,16 @@ export const submitApplication = async (req, res) => {
     //   resumeUrl = uploadRes.secure_url;
     // }
 
+    let educationArr = [];
+    let workArr = [];
+
+    try {
+      if (education) educationArr = JSON.parse(education);
+      if (workExperience) workArr = JSON.parse(workExperience);
+    } catch (error) {
+      console.log("JSON parse error:", error.message);
+    }
+
     let attachment = [];
 
     if (req.file) {
@@ -72,15 +82,27 @@ export const submitApplication = async (req, res) => {
         <p><b>Email:</b> ${email}</p>
         <p><b>Phone:</b> ${phone}</p>
         <p><b>Address:</b> ${street}, ${apartment}, ${city}, ${state}, ${zip}, ${country}</p>
-        <p><b>Education:</b> ${education}</p>
-        <p><b>Work Experience:</b> ${workExperience}</p>
+        <h3>Education:</h3>
+        <ul>
+          ${educationArr
+            .map((e) => `<li>${e.degree} - ${e.year}</li>`)
+            .join("")}
+        </ul>
+        <h3>Work Experience:</h3>
+        <ul>
+        ${workArr
+          .map(
+            (w) =>
+              `<li>${w.company} - ${w.role} - ${w.responsibilities} (${w.experience})</li>`
+          )
+          .join("")}
+        </ul>
+
         <p><b>Confirm:</b> ${confirm ? "Yes" : "No"}</p>
-        ${
-          resumeUrl
-            ? `<p><b>Resume:</b> <a href="${resumeUrl}" target="_blank">Download</a></p>`
-            : "<p><b>Resume:</b> Not attached</p>"
-        }
+        <p>Resume:</b>${attachment.length > 0 ? "Attached" : "Not Attached"}</p>
       `,
+      attachments: attachment,
+      replyTo: email,
     });
     res.status(200).json({
       success: true,
