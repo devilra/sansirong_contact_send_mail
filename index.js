@@ -7,14 +7,28 @@ import resumeRouter from "./routes/applicationRoutes.js";
 
 const app = express();
 
+const allowedOrigins = ["https://sansirong.com", "https://sansirong.in"];
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors({
+  origin:function(origin, callback){
+    if(!origin || allowedOrigins.includes(origin)){
+      callback(null, true)
+    }else{
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
+  methods:['GET', 'POST', 'PUT', 'DELETE'],
+  credentials:true
+}));
 const PORT = process.env.PORT;
 
 // app.get("/", () => {
 //   console.log("Api is running");
 // });
+
+
 
 app.use("/api", resumeRouter);
 
