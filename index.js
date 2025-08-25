@@ -7,21 +7,26 @@ import resumeRouter from "./routes/applicationRoutes.js";
 
 const app = express();
 
-const allowedOrigins = ["https://sansirong.com", "https://sansirong.in"];
+const allowedOrigins = ["https://sansirong.com", "https://sansirong.in", "https://amigo-pegatron.vercel.app"];
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-  origin:function(origin, callback){
-    if(!origin || allowedOrigins.includes(origin)){
-      callback(null, true)
-    }else{
-      callback(new Error('Not allowed by CORS'))
+  origin: function (origin, callback) {
+    if (!origin) {
+      // Same-origin requests ku header illa
+      return callback(null, true);
+    }
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      return callback(new Error("Not allowed by CORS"));
     }
   },
-  methods:['GET', 'POST', 'PUT', 'DELETE'],
-  credentials:true
+  credentials: true,  // cookies / auth headers ku
+  methods: ["GET", "POST", "PUT", "DELETE"],
 }));
+
 const PORT = process.env.PORT;
 
 // app.get("/", () => {
