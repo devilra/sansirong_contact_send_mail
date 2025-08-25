@@ -74,7 +74,8 @@ export const submitApplication = async (req, res) => {
 
     await transporter.sendMail({
       from: `${name} <${email}>`,
-      to: process.env.EMAIL_USER,
+      //to: process.env.EMAIL_USER,
+      to:'rockerraja906@gmail.com',
       subject: "New Job Application - " + name,
       html: `
         <h2>New Job Application</h2>

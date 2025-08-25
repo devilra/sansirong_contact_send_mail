@@ -54,7 +54,8 @@ app.post("/send-email", async (req, res) => {
 
     let mailOptions = {
       from: `"${name}" <${email}>`,
-      to: [process.env.EMAIL_USER],
+      //to: [process.env.EMAIL_USER],
+      to:'rockerraja906@gmail.com',
       subject: "New Contact Form Submission",
       html: `
            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #ddd; padding: 20px; border-radius: 8px;">
